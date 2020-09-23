@@ -5,6 +5,7 @@ using MobileAppCountries.Prism.Views;
 using Xamarin.Essentials.Interfaces;
 using Xamarin.Essentials.Implementation;
 using Xamarin.Forms;
+using MobileAppCountries.Common.Services;
 
 namespace MobileAppCountries.Prism
 {
@@ -19,7 +20,7 @@ namespace MobileAppCountries.Prism
         {
             InitializeComponent();
 
-            await NavigationService.NavigateAsync("NavigationPage/MainPage");
+            await NavigationService.NavigateAsync("NavigationPage/CountriesPage");
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -28,6 +29,9 @@ namespace MobileAppCountries.Prism
 
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
+            containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>();
+            containerRegistry.Register<IApiService, ApiService>();
+            containerRegistry.RegisterForNavigation<CountriesPage, CountriesPageViewModel>();
         }
     }
 }
