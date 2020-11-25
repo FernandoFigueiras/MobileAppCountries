@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30503.244
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobileAppCountries.Common", "MobileAppCountries.Common\MobileAppCountries.Common.csproj", "{C81F28D5-7D40-43DA-8C5C-0F750218BDA6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MobileAppCountries.Common", "MobileAppCountries.Common\MobileAppCountries.Common.csproj", "{C81F28D5-7D40-43DA-8C5C-0F750218BDA6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobileAppCountries.Prism", "MobileAppCountries.Prism\MobileAppCountries.Prism\MobileAppCountries.Prism.csproj", "{B1CE13D2-30FF-4070-8F75-E4E60D23D8EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MobileAppCountries.Prism", "MobileAppCountries.Prism\MobileAppCountries.Prism\MobileAppCountries.Prism.csproj", "{B1CE13D2-30FF-4070-8F75-E4E60D23D8EF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobileAppCountries.Prism.Android", "MobileAppCountries.Prism\MobileAppCountries.Prism.Android\MobileAppCountries.Prism.Android.csproj", "{0E205C1F-5D71-4CC6-8A92-4F7F6CAF6042}"
 EndProject

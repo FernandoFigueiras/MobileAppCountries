@@ -11,27 +11,41 @@ namespace MobileAppCountries.Prism.ItemViewModel
     public class CountryItemViewModel : Country
     {
         private readonly INavigationService _navigationService;
-        private DelegateCommand _selectProductCommand;
+        private readonly List<Country> _countries;
+        private DelegateCommand _selectCoutryCommand;
 
-        public CountryItemViewModel(INavigationService navigationService)
+        public CountryItemViewModel(INavigationService navigationService, List<Country> countries)
         {
             _navigationService = navigationService;
+            this._countries = countries;
         }
 
-        public DelegateCommand SelectCountryCommand => _selectProductCommand ??
-           (_selectProductCommand = new DelegateCommand(SelectCountryAsync));
+        public DelegateCommand SelectCountryCommand => _selectCoutryCommand ??
+           (_selectCoutryCommand = new DelegateCommand(SelectCountryAsync));
 
 
 
         private async void SelectCountryAsync()
         {
+            Country clickedCountry = new Country();
+
+            foreach (var item in _countries)
+            {
+                if (this.Name == item.Name)
+                {
+                    clickedCountry = item;
+                }
+            }
+
+
             NavigationParameters parameters = new NavigationParameters
             {
-               { "country", this }
+                //{ "country", this }
+                { "country", clickedCountry }
             };
 
 
-            await _navigationService.NavigateAsync(nameof(CountriesPage), parameters);
+            await _navigationService.NavigateAsync(nameof(SinglePageCountry), parameters);
         }
 
     }

@@ -10,7 +10,8 @@
         <ResourceDictionary>
 
             <!-- Parameters -->
-            <x:String x:Key="UrlAPI">http://restcountries.eu</x:String>
+            <x:String x:Key="UrlCountriesAPI">http://restcountries.eu</x:String>
+            <x:String x:Key="UrlBlogApi">http://www.mobtblog.somee.com</x:String>
 
 
             <!-- Colors -->
@@ -40,6 +41,9 @@
 
             <Style x:Key="DangerButton" TargetType="Button">
                 <Setter Property="BackgroundColor" Value="{StaticResource ColorDanger}" />
+            </Style>
+            <Style x:Key="fullLayout" TargetType="AbsoluteLayout">
+                <Setter Property="Padding" Value="10"/>
             </Style>
 
 

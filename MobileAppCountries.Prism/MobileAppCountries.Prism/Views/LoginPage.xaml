@@ -24,7 +24,7 @@
                                                        ContainerType="Outlined">
                             <Entry Placeholder="Email"
                                    Keyboard="Email"
-                                   Text="{Binding Email}" />
+                                   Text="{Binding UserName}" />
                         </inputLayout:SfTextInputLayout>
 
                         <inputLayout:SfTextInputLayout Hint="Password" 

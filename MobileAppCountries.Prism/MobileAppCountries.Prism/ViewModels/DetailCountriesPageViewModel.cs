@@ -3,16 +3,19 @@ using MobileAppCountries.Common.Responses;
 using MobileAppCountries.Common.Services;
 using MobileAppCountries.Prism.ItemViewModel;
 using Prism.Commands;
+using Prism.Mvvm;
 using Prism.Navigation;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using Xamarin.Essentials;
-
 
 namespace MobileAppCountries.Prism.ViewModels
 {
-    public class CountriesPageViewModel : ViewModelBase
+    public class DetailCountriesPageViewModel : ViewModelBase
     {
         private readonly INavigationService _navigationService;
         private readonly IApiService _apiService;
@@ -21,22 +24,22 @@ namespace MobileAppCountries.Prism.ViewModels
 
         private string _search;
         private List<Country> _myCoutries;
+        private List<CommentEntries> _commentEntries;
         private DelegateCommand _searchCommand;
+        public User User { get; set; }
 
         private ObservableCollection<CountryItemViewModel> _countries;
 
-        public User User { get; set; }
-
-
-        public CountriesPageViewModel(INavigationService navigationService,
+        public DetailCountriesPageViewModel(INavigationService navigationService,
             IApiService apiService,
             User user) : base(navigationService)
         {
             _navigationService = navigationService;
             _apiService = apiService;
             User = user;
-            Title = "Countries";
+            Title = "Detailed Countries";
             LoadCountriesAsync();
+
         }
 
         public DelegateCommand SearchCommand => _searchCommand ?? (_searchCommand = new DelegateCommand(ShowCountries));
@@ -69,6 +72,8 @@ namespace MobileAppCountries.Prism.ViewModels
         }
 
 
+        
+
 
         private async void LoadCountriesAsync()
         {
@@ -96,10 +101,27 @@ namespace MobileAppCountries.Prism.ViewModels
 
             _myCoutries = (List<Country>)response.Result;
 
+            _commentEntries = await LoadCommentsAsync();
+
             ShowCountries();
 
         }
 
+        private async Task<List<CommentEntries>> LoadCommentsAsync()
+        {
+            string url = App.Current.Resources["UrlBlogApi"].ToString();
+            Response response = await _apiService.GetListAsync<Country>(
+                url,
+                "/Blogs",
+                "/GetAllBlogEntries");
+
+            if (response.IsSuccess)
+            {
+                _commentEntries = (List<CommentEntries>)response.Result;
+            }
+
+            return _commentEntries;
+        }
 
 
         private void ShowCountries()

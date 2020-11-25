@@ -4,8 +4,27 @@
              x:Class="MobileAppCountries.Prism.Views.MainPage"
              Title="{Binding Title}">
 
-    <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-        <Label Text="Welcome to Xamarin Forms and Prism!" />
-    </StackLayout>
+
+    <Grid RowSpacing="20" Padding="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Label Grid.Row="0" Grid.ColumnSpan="2" HorizontalOptions="CenterAndExpand">Welcome to Countries mobile app</Label>
+        <Label Grid.Row="1" Grid.ColumnSpan="2" HorizontalOptions="CenterAndExpand">Chose how you wnat to see the info?</Label>
+        <Button Grid.Row="2" Grid.Column="0" Text="List" Command="{Binding OpenListCountries}"></Button>
+        <Button Grid.Row="2" Grid.Column="1" Text="Detail" Command="{Binding OpenDetailCountries}"></Button>
+        <Label Grid.Row="3" Grid.ColumnSpan="2">Do you want to register or sign in?</Label>
+        <Button Grid.Row="5" HorizontalOptions="CenterAndExpand" Grid.ColumnSpan="2" Text="Go to login" Command="{Binding GoToLogin}"></Button>
+    </Grid>
+    
 
 </ContentPage>

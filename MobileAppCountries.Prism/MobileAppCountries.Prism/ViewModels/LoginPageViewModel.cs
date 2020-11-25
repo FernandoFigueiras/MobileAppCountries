@@ -1,4 +1,9 @@
-﻿using Prism.Commands;
+﻿using MobileAppCountries.Common.Entities;
+using MobileAppCountries.Common.Responses;
+using MobileAppCountries.Common.Services;
+using MobileAppCountries.Prism.Views;
+using Newtonsoft.Json;
+using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using System;
@@ -11,16 +16,23 @@ namespace MobileAppCountries.Prism.ViewModels
     {
         private bool _isRunning;
         private bool _isEnabled;
+        private string _userName;
         private string _password;
         private DelegateCommand _loginCommand;
         private DelegateCommand _registerCommand;
         private DelegateCommand _forgotPasswordCommand;
+        private readonly INavigationService _navigationService;
+        private readonly IApiService _apiservice;
 
+        public Response response { get; set; }
 
-        public LoginPageViewModel(INavigationService navigationService) : base(navigationService)
+        public LoginPageViewModel(INavigationService navigationService,
+            IApiService apiservice) : base(navigationService)
         {
             Title = "Login";
             _isEnabled = true;
+            this._navigationService = navigationService;
+            this._apiservice = apiservice;
         }
 
 
@@ -28,7 +40,7 @@ namespace MobileAppCountries.Prism.ViewModels
             _loginCommand ?? (_loginCommand = new DelegateCommand(LoginAsync));
 
         public DelegateCommand RegisterCommand =>
-            _registerCommand ?? (_registerCommand = new DelegateCommand(RegisterAsync));
+            _registerCommand ?? (_registerCommand = new DelegateCommand(GoToRegister));
 
         public DelegateCommand ForgotPasswordCommand =>
             _forgotPasswordCommand ?? (_forgotPasswordCommand = new DelegateCommand(ForgotPasswordAsync));
@@ -46,7 +58,11 @@ namespace MobileAppCountries.Prism.ViewModels
             set => SetProperty(ref _isEnabled, value);
         }
 
-        public string Email { get; set; }
+        public string UserName
+        {
+            get => _userName;
+            set => SetProperty(ref _userName, value);
+        }
 
         public string Password
         {
@@ -57,7 +73,7 @@ namespace MobileAppCountries.Prism.ViewModels
 
         private async void LoginAsync()
         {
-            if (string.IsNullOrEmpty(Email))
+            if (string.IsNullOrEmpty(UserName))
             {
                 await App.Current.MainPage.DisplayAlert(
                     "Error",
@@ -74,6 +90,39 @@ namespace MobileAppCountries.Prism.ViewModels
                     "Cancel");
                 return;
             }
+
+            string url = App.Current.Resources["UrlBlogApi"].ToString();
+
+            Response response = await _apiservice.LoginAsync(
+              url,
+              "/Users",
+              "/Login",
+              UserName,
+              Password);
+
+            if (!response.IsSuccess)
+            {
+                await App.Current.MainPage.DisplayAlert(
+                    "Error",
+                    "Invalid user name or password",
+                    "cancel");
+            }
+
+            var jsonString = response.Result.ToString();
+
+
+            User user = JsonConvert.DeserializeObject<User>(jsonString);
+
+            if (user !=null)
+            {
+                user.IsLogedin = true;
+            }
+
+            var navParams = new NavigationParameters();
+            navParams.Add("user", user);
+
+            await _navigationService.NavigateAsync(nameof(MainPage), navParams);
+
         }
 
 
@@ -82,9 +131,9 @@ namespace MobileAppCountries.Prism.ViewModels
             //TODO: Pending
         }
 
-        private void RegisterAsync()
+        private async void GoToRegister()
         {
-            //TODO: Pending
+            await _navigationService.NavigateAsync(nameof(RegisterPage));
         }
     }
 }

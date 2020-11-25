@@ -20,8 +20,10 @@ namespace MobileAppCountries.Prism
         {
             InitializeComponent();
 
-            await NavigationService.NavigateAsync("NavigationPage/CountriesPage");
+            //await NavigationService.NavigateAsync("NavigationPage/CountriesPage");
+            await NavigationService.NavigateAsync(nameof(MainPage));
         }
+
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
@@ -32,6 +34,9 @@ namespace MobileAppCountries.Prism
             containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>();
             containerRegistry.Register<IApiService, ApiService>();
             containerRegistry.RegisterForNavigation<CountriesPage, CountriesPageViewModel>();
+            containerRegistry.RegisterForNavigation<SinglePageCountry, SinglePageCountryViewModel>();
+            containerRegistry.RegisterForNavigation<DetailCountriesPage, DetailCountriesPageViewModel>();
+            containerRegistry.RegisterForNavigation<RegisterPage, RegisterPageViewModel>();
         }
     }
 }
