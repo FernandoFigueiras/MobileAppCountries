@@ -1,31 +1,51 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:prism="http://prismlibrary.com"
+             xmlns:prism="http://prismlibrary.com" xmlns:inputLayout="clr-namespace:Syncfusion.XForms.TextInputLayout;assembly=Syncfusion.Core.XForms"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="MobileAppCountries.Prism.Views.RegisterPage">
+             x:Class="MobileAppCountries.Prism.Views.RegisterPage"
+             Title="{Binding Title}"
+             Style="{StaticResource secondaryLayoutStyle}">
 
-    <StackLayout>
-        <StackLayout Orientation="Vertical">
-            <Label>User Name</Label>
-            <Entry Text="{Binding UserName}"></Entry>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="auto "/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="2*" />
+        </Grid.RowDefinitions>
+        <StackLayout Grid.Row="1">
+            <Label Style="{StaticResource secondaryMainLabel}">Insert your data</Label>
+            <StackLayout Orientation="Vertical">
+                <inputLayout:SfTextInputLayout Hint="User Name" 
+                                                       ContainerType="Outlined">
+                    <Entry Placeholder="User Name"
+                                   Text="{Binding UserName}" Style="{StaticResource inputFieldStyle}"/>
+                </inputLayout:SfTextInputLayout>
+                <inputLayout:SfTextInputLayout Hint="Email" 
+                                                       ContainerType="Outlined">
+                    <Entry Placeholder="Email"
+                                   Text="{Binding Email}" Style="{StaticResource inputFieldStyle}"/>
+                </inputLayout:SfTextInputLayout>
+                <inputLayout:SfTextInputLayout Hint="Password" 
+                                                       EnablePasswordVisibilityToggle="true"
+                                                       ContainerType="Outlined">
+                    <Entry Placeholder="Password" 
+                                   IsPassword="True"
+                                   Text="{Binding Password}" Style="{StaticResource inputFieldStyle}"/>
+                </inputLayout:SfTextInputLayout>
+                <inputLayout:SfTextInputLayout Hint="Confirm" 
+                                                       EnablePasswordVisibilityToggle="true"
+                                                       ContainerType="Outlined">
+                    <Entry Placeholder="Password" 
+                                   IsPassword="True"
+                                   Text="{Binding Confirm}" Style="{StaticResource inputFieldStyle}"/>
+                </inputLayout:SfTextInputLayout>
+                <Button Command="{Binding RegisterNewUser}" Style="{StaticResource universalButton}" Text="Submit"></Button>
+            </StackLayout>
+           
         </StackLayout>
-        <StackLayout Orientation="Vertical">
-            <Label>Email</Label>
-            <Entry Text="{Binding Email}"></Entry>
-        </StackLayout>
-        <StackLayout Orientation="Vertical">
-            <Label>Password</Label>
-            <Entry Text="{Binding Password}"></Entry>
-        </StackLayout>
-        <StackLayout Orientation="Vertical">
-            <Label>Confirm</Label>
-            <Entry Text="{Binding Confirm}"></Entry>
-        </StackLayout>
-        <StackLayout Orientation="Vertical">
-            <Label>Status</Label>
-            <Entry Text="{Binding Status}"></Entry>
-        </StackLayout>
-        <Button Command="{Binding RegisterNewUser}"></Button>
-    </StackLayout>
+    </Grid>
+
+    
 </ContentPage>

@@ -2,9 +2,7 @@
 using MobileAppCountries.Prism.Views;
 using Prism.Commands;
 using Prism.Navigation;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace MobileAppCountries.Prism.ItemViewModel
 {
@@ -13,11 +11,13 @@ namespace MobileAppCountries.Prism.ItemViewModel
         private readonly INavigationService _navigationService;
         private readonly List<Country> _countries;
         private DelegateCommand _selectCoutryCommand;
+        public User User { get; set; }
 
-        public CountryItemViewModel(INavigationService navigationService, List<Country> countries)
+        public CountryItemViewModel(INavigationService navigationService, List<Country> countries, User user)
         {
             _navigationService = navigationService;
             this._countries = countries;
+            User = user;
         }
 
         public DelegateCommand SelectCountryCommand => _selectCoutryCommand ??
@@ -37,15 +37,26 @@ namespace MobileAppCountries.Prism.ItemViewModel
                 }
             }
 
-
-            NavigationParameters parameters = new NavigationParameters
+            if (User == null)
             {
+                NavigationParameters parameters = new NavigationParameters
+                {
                 //{ "country", this }
-                { "country", clickedCountry }
-            };
+                     { "country", clickedCountry}
+                 };
+                await _navigationService.NavigateAsync(nameof(SinglePageCountry), parameters);
+            }
+            else
+            {
+                NavigationParameters parameters = new NavigationParameters
+                {
+                //{ "country", this }
+                    { "country", clickedCountry}
+                };
+                parameters.Add("user", User);
+                await _navigationService.NavigateAsync(nameof(SinglePageCountryLogedIn), parameters);
+            }
 
-
-            await _navigationService.NavigateAsync(nameof(SinglePageCountry), parameters);
         }
 
     }

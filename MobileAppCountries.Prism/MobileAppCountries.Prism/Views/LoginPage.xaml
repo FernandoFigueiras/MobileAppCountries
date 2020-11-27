@@ -6,7 +6,8 @@
              xmlns:busyindicator="clr-namespace:Syncfusion.SfBusyIndicator.XForms;assembly=Syncfusion.SfBusyIndicator.XForms"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="MobileAppCountries.Prism.Views.LoginPage"
-             Title="{Binding Title}">
+             Title="{Binding Title}"
+             Style="{StaticResource secondaryLayoutStyle}">
 
 
     <AbsoluteLayout>
@@ -20,11 +21,10 @@
                            Source="logo"/>
 
                     <StackLayout VerticalOptions="CenterAndExpand">
-                        <inputLayout:SfTextInputLayout Hint="Email" 
+                        <inputLayout:SfTextInputLayout Hint="User Name" 
                                                        ContainerType="Outlined">
-                            <Entry Placeholder="Email"
-                                   Keyboard="Email"
-                                   Text="{Binding UserName}" />
+                            <Entry Placeholder="User Name"
+                                   Text="{Binding UserName}" Style="{StaticResource inputFieldStyle}"/>
                         </inputLayout:SfTextInputLayout>
 
                         <inputLayout:SfTextInputLayout Hint="Password" 
@@ -32,19 +32,16 @@
                                                        ContainerType="Outlined">
                             <Entry Placeholder="Password" 
                                    IsPassword="True"
-                                   Text="{Binding Password}" />
+                                   Text="{Binding Password}" Style="{StaticResource inputFieldStyle}"/>
                         </inputLayout:SfTextInputLayout>
                     </StackLayout>
 
-                    <Label FontAttributes="Bold"
+                    <!--<Label FontAttributes="Bold"
                            HorizontalOptions="Center" 
                            Text="ForgotPassword"
                            TextColor="{StaticResource ColorAccent}"
                            VerticalOptions="CenterAndExpand">
-                        <Label.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding ForgotPasswordCommand}"/>
-                        </Label.GestureRecognizers>
-                    </Label>
+                    </Label>-->
 
                 </StackLayout>
             </ScrollView>

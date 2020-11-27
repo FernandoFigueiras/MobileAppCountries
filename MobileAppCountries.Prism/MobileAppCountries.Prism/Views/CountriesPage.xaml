@@ -7,7 +7,8 @@
              xmlns:busyindicator="clr-namespace:Syncfusion.SfBusyIndicator.XForms;assembly=Syncfusion.SfBusyIndicator.XForms"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="MobileAppCountries.Prism.Views.CountriesPage"
-             Title="{Binding Title}">
+             Title="{Binding Title}"
+             Style="{StaticResource secondaryLayoutStyle}">
 
     <AbsoluteLayout>
         <StackLayout AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" Padding="5">
@@ -35,18 +36,16 @@
                             <ffimageloadingsvg:SvgCachedImage WidthRequest="100" HeightRequest="100" Source="{Binding Flag}"/>
                             <StackLayout Grid.Column="1"
                                      VerticalOptions="Center">
-                            <Label Text="{Binding Name}" 
+                                <Label Text="{Binding Name}" 
                                    FontAttributes="Bold"
                                    FontSize="Medium"
                                    LineBreakMode="TailTruncation" />
-                                <Label Text="{Binding Capital}"
+                                <!--<Label Text="{Binding Capital}"
                                    LineBreakMode="TailTruncation"
                                    FontAttributes="Italic" 
-                                   VerticalOptions="End" />
-                        </StackLayout>
-                        <Image Grid.Column="2" 
-                               Source="ic_more_vert"/>
-                    </Grid>
+                                   VerticalOptions="End" />-->
+                            </StackLayout>
+                        </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>

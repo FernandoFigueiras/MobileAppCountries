@@ -5,7 +5,12 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
              xmlns:busyindicator="clr-namespace:Syncfusion.SfBusyIndicator.XForms;assembly=Syncfusion.SfBusyIndicator.XForms"
-             x:Class="MobileAppCountries.Prism.Views.DetailCountriesPage">
+             x:Class="MobileAppCountries.Prism.Views.DetailCountriesPage"
+             Title="{Binding Title}"
+             Style="{StaticResource secondaryLayoutStyle}">
+    
+    
+    
     <AbsoluteLayout>
         <StackLayout AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" Padding="5">
             <SearchBar Placeholder="Search Countries"
@@ -20,12 +25,16 @@
                                 <TapGestureRecognizer Command="{Binding SelectCountryCommand}"/>
                             </Grid.GestureRecognizers>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="2*" />
+                                <ColumnDefinition Width="auto" />
                             </Grid.ColumnDefinitions>
-                            <ffimageloadingsvg:SvgCachedImage WidthRequest="100" HeightRequest="100" Source="{Binding Flag}" />
-                            <StackLayout Grid.Column="1"
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <ffimageloadingsvg:SvgCachedImage WidthRequest="100" HeightRequest="100" Source="{Binding Flag}" Grid.Row="0" Grid.ColumnSpan="2"/>
+                            <StackLayout Grid.Row="1" Grid.ColumnSpan="2"
                                      VerticalOptions="Center">
                                 <Label Text="{Binding Name}" 
                                    FontAttributes="Bold"
@@ -35,6 +44,33 @@
                                    LineBreakMode="TailTruncation"
                                    FontAttributes="Italic" 
                                    VerticalOptions="End" />
+                                <CollectionView ItemsSource="{Binding Comments}">
+                                    <CollectionView.ItemsLayout>
+                                        <GridItemsLayout Orientation="Vertical"/>
+                                    </CollectionView.ItemsLayout>
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+
+                                                <StackLayout Grid.Column="1"
+                                     VerticalOptions="Center">
+                                                    <Label Text="{Binding Title}" 
+                                   FontAttributes="Bold"
+                                   FontSize="Medium"
+                                   LineBreakMode="TailTruncation" />
+                                                    <Label Text="{Binding BlogText}"
+                                   LineBreakMode="TailTruncation"
+                                   FontAttributes="Italic" 
+                                   VerticalOptions="End" />
+                                                </StackLayout>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
                             </StackLayout>
                         </Grid>
                     </DataTemplate>

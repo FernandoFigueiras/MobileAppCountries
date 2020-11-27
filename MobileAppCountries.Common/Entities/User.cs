@@ -10,5 +10,7 @@
 
         public bool? IsLogedin { get; set; }
 
+        public string Id { get; set; }
+
     }
 }

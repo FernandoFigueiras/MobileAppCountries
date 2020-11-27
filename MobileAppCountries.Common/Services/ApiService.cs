@@ -163,7 +163,7 @@ namespace MobileAppCountries.Common.Services
         }
 
 
-        public async Task<Response> GetCountriesWithCommentsAsync(string urlBase, string servicePrefix, string controller, string userToken)
+        public async Task<Response> GetCommentsAsync<T>(string urlBase, string servicePrefix, string controller)
         {
             try
             {
@@ -172,11 +172,68 @@ namespace MobileAppCountries.Common.Services
                     BaseAddress = new Uri(urlBase),
                 };
 
+                
+
+                string url = $"{servicePrefix}{controller}";
+                HttpResponseMessage response = await client.GetAsync(url);
+                string result = await response.Content.ReadAsStringAsync();
+
+
+                List<T> list = JsonConvert.DeserializeObject<List<T>>(result);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = result,
+                    };
+                }
+
+                return new Response
+                {
+                    IsSuccess = true,
+                    Result = list,
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
+        }
+
+
+        public async Task<Response> PostCommentEntry(string urlBase, string servicePrefix, string controller, CommentEntries commentEntries, string userToken)
+        {
+            try
+            {
+                HttpClient client = new HttpClient
+                {
+                    BaseAddress = new Uri(urlBase),
+                };
+
+                var jsonObject = new
+                {
+                    title = commentEntries.Title,
+                    blogtext = commentEntries.BlogText,
+                    userId = commentEntries.UserId,
+                    country = commentEntries.Country
+                };
+
+
+
+                var json = JsonConvert.SerializeObject(jsonObject);
+                var contentString = new StringContent(json, Encoding.Default, "application/json");
+
                 client.DefaultRequestHeaders.Authorization =
                     new AuthenticationHeaderValue("Bearer", userToken);
 
                 string url = $"{servicePrefix}{controller}";
-                HttpResponseMessage response = await client.GetAsync(url);
+                HttpResponseMessage response = await client.PostAsync(url, contentString);
                 string result = await response.Content.ReadAsStringAsync();
 
 
@@ -188,6 +245,7 @@ namespace MobileAppCountries.Common.Services
                         Message = result,
                     };
                 }
+
 
                 return new Response
                 {

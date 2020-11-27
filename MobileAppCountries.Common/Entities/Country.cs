@@ -33,7 +33,7 @@ namespace MobileAppCountries.Common.Entities
         public string Flag { get; set; }
         public List<RegionalBloc> RegionalBlocs { get; set; }
         public string Cioc { get; set; }
-
+        public List<CommentEntries> Comments { get; set; }
 
     }
 }

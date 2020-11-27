@@ -4,11 +4,7 @@ using MobileAppCountries.Common.Services;
 using MobileAppCountries.Prism.Views;
 using Newtonsoft.Json;
 using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Navigation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace MobileAppCountries.Prism.ViewModels
 {
@@ -77,7 +73,7 @@ namespace MobileAppCountries.Prism.ViewModels
             {
                 await App.Current.MainPage.DisplayAlert(
                     "Error",
-                    "Invalid Email",
+                    "Invalid UserName",
                     "Cancel");
                 return;
             }
@@ -113,7 +109,7 @@ namespace MobileAppCountries.Prism.ViewModels
 
             User user = JsonConvert.DeserializeObject<User>(jsonString);
 
-            if (user !=null)
+            if (user != null)
             {
                 user.IsLogedin = true;
             }

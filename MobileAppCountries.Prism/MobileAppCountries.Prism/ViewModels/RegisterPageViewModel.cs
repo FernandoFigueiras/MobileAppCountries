@@ -5,10 +5,6 @@ using MobileAppCountries.Prism.Views;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
 using Xamarin.Essentials;
 
 namespace MobileAppCountries.Prism.ViewModels
@@ -70,6 +66,51 @@ namespace MobileAppCountries.Prism.ViewModels
 
         private async void Register()
         {
+            if (string.IsNullOrEmpty(UserName))
+            {
+                await App.Current.MainPage.DisplayAlert(
+                    "Error",
+                    "Invalid User Name",
+                    "Cancel");
+                return;
+            }
+
+            if (string.IsNullOrEmpty(Email))
+            {
+                await App.Current.MainPage.DisplayAlert(
+                    "Error",
+                    "Invalid Email",
+                    "Cancel");
+                return;
+            }
+
+            if (string.IsNullOrEmpty(Password))
+            {
+                await App.Current.MainPage.DisplayAlert(
+                    "Error",
+                    "Invalid Password",
+                    "Cancel");
+                return;
+            }
+
+            if (string.IsNullOrEmpty(Confirm))
+            {
+                await App.Current.MainPage.DisplayAlert(
+                    "Error",
+                    "Insert confirm password",
+                    "Cancel");
+                return;
+            }
+
+            if (Confirm != Password)
+            {
+                await App.Current.MainPage.DisplayAlert(
+                    "Error",
+                    "Password dont match",
+                    "Cancel");
+                return;
+            }
+
 
             if (Connectivity.NetworkAccess != NetworkAccess.Internet)
             {
@@ -84,7 +125,6 @@ namespace MobileAppCountries.Prism.ViewModels
                 Email = Email,
                 Password = Password,
                 Confirm = Password,
-                Status = Status
             };
 
             Response response = await _apiService.RegisterAsync(
@@ -104,7 +144,7 @@ namespace MobileAppCountries.Prism.ViewModels
             await App.Current.MainPage.DisplayAlert("Success", "Successfully registered, procede to login", "OK");
             await _navigationService.NavigateAsync(nameof(LoginPage));
         }
-            
+
     }
 
 }

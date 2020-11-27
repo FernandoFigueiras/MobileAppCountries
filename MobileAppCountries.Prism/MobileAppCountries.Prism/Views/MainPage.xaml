@@ -2,28 +2,33 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MobileAppCountries.Prism.Views.MainPage"
-             Title="{Binding Title}">
+             Title="{Binding Title}"
+             Style="{StaticResource layoutStyle}">
 
 
     <Grid RowSpacing="20" Padding="20">
         <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="2*"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="auto "/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Label Grid.Row="0" Grid.ColumnSpan="2" HorizontalOptions="CenterAndExpand">Welcome to Countries mobile app</Label>
-        <Label Grid.Row="1" Grid.ColumnSpan="2" HorizontalOptions="CenterAndExpand">Chose how you wnat to see the info?</Label>
-        <Button Grid.Row="2" Grid.Column="0" Text="List" Command="{Binding OpenListCountries}"></Button>
-        <Button Grid.Row="2" Grid.Column="1" Text="Detail" Command="{Binding OpenDetailCountries}"></Button>
-        <Label Grid.Row="3" Grid.ColumnSpan="2">Do you want to register or sign in?</Label>
-        <Button Grid.Row="5" HorizontalOptions="CenterAndExpand" Grid.ColumnSpan="2" Text="Go to login" Command="{Binding GoToLogin}"></Button>
+        <Label Grid.Row="1" Grid.ColumnSpan="2" Style="{StaticResource mainLabel}">Welcome to Countries mobile app</Label>
+        <Label Grid.Row="3" Grid.ColumnSpan="2" Style="{StaticResource labelStyle}">Chose how to display the info</Label>
+        <Button Grid.Row="5" Grid.Column="0" Text="List" Command="{Binding OpenListCountries}" Style="{StaticResource universalButton}"></Button>
+        <Button Grid.Row="5" Grid.Column="1" Text="Detail" Command="{Binding OpenDetailCountries}" Style="{StaticResource universalButton}"></Button>
+        <Label Grid.Row="7" Grid.ColumnSpan="2" Style="{StaticResource labelStyle}">Sign in or register to start comment</Label>
+        <Button Grid.Row="8"  Grid.ColumnSpan="2" Text="Go to login" Command="{Binding GoToLogin}" Style="{StaticResource secondaryUniversalButton}"></Button>
     </Grid>
     
 

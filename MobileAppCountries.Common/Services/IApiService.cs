@@ -11,5 +11,9 @@ namespace MobileAppCountries.Common.Services
         Task<Response> RegisterAsync(string UrlBase, string servicePrefix, string controller, Register register);
 
         Task<Response> LoginAsync(string UrlBase, string servicePrefix, string controller, string userName, string password);
+
+        Task<Response> GetCommentsAsync<T>(string urlBase, string servicePrefix, string controller);
+
+        Task<Response> PostCommentEntry(string urlBase, string servicePrefix, string controller, CommentEntries commentEntries, string userToken);
     }
 }

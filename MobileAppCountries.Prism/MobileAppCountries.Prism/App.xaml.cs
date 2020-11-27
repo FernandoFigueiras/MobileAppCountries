@@ -37,6 +37,7 @@ namespace MobileAppCountries.Prism
             containerRegistry.RegisterForNavigation<SinglePageCountry, SinglePageCountryViewModel>();
             containerRegistry.RegisterForNavigation<DetailCountriesPage, DetailCountriesPageViewModel>();
             containerRegistry.RegisterForNavigation<RegisterPage, RegisterPageViewModel>();
+            containerRegistry.RegisterForNavigation<SinglePageCountryLogedIn, SinglePageCountryLogedInViewModel>();
         }
     }
 }

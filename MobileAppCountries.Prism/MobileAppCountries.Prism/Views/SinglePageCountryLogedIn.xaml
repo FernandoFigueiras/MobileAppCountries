@@ -3,9 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com" xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="MobileAppCountries.Prism.Views.SinglePageCountry">
-
-
+             x:Class="MobileAppCountries.Prism.Views.SinglePageCountryLogedIn">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -18,18 +16,22 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <ffimageloadingsvg:SvgCachedImage WidthRequest="100" HeightRequest="100" Source="{Binding Flag}" Grid.Row="0"/>
+        <ffimageloadingsvg:SvgCachedImage WidthRequest="100" HeightRequest="100" Source="{Binding Country.Flag}" Grid.Row="0"/>
         <StackLayout Grid.Row="1" Grid.Column="1"
                                      VerticalOptions="Center">
-            <Label Text="{Binding Name}" 
+            <Label Text="{Binding Country.Name}" 
                                    FontAttributes="Bold"
                                    FontSize="Medium"
                                    LineBreakMode="TailTruncation" />
-            <Label Text="{Binding Capital}"
+            <Label Text="{Binding Country.Capital}"
                                    LineBreakMode="TailTruncation"
                                    FontAttributes="Italic" 
                                    VerticalOptions="End" />
-            <CollectionView ItemsSource="{Binding Comments}">
+            <Label>Add a comment</Label>
+            <Entry Text="{Binding Title}" />
+            <Entry Text="{Binding BlogText}" />
+            <Button Text="Post" Command="{Binding PostComment}"></Button>
+            <CollectionView ItemsSource="{Binding Country.Comments}">
                 <CollectionView.ItemsLayout>
                     <GridItemsLayout Orientation="Vertical"/>
                 </CollectionView.ItemsLayout>
@@ -61,4 +63,5 @@
             </CollectionView>
         </StackLayout>
     </Grid>
+
 </ContentPage>

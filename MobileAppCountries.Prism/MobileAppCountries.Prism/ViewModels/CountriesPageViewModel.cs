@@ -12,7 +12,7 @@ using Xamarin.Essentials;
 
 namespace MobileAppCountries.Prism.ViewModels
 {
-    public class CountriesPageViewModel : ViewModelBase
+    public class CountriesPageViewModel : ViewModelBase, INavigationAware
     {
         private readonly INavigationService _navigationService;
         private readonly IApiService _apiService;
@@ -24,13 +24,13 @@ namespace MobileAppCountries.Prism.ViewModels
         private DelegateCommand _searchCommand;
 
         private ObservableCollection<CountryItemViewModel> _countries;
+        private ObservableCollection<CountryItemViewModel> _comments;
 
         public User User { get; set; }
 
 
         public CountriesPageViewModel(INavigationService navigationService,
-            IApiService apiService,
-            User user) : base(navigationService)
+            IApiService apiService, User user) : base(navigationService)
         {
             _navigationService = navigationService;
             _apiService = apiService;
@@ -41,6 +41,15 @@ namespace MobileAppCountries.Prism.ViewModels
 
         public DelegateCommand SearchCommand => _searchCommand ?? (_searchCommand = new DelegateCommand(ShowCountries));
 
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            User = (User)parameters["user"];
+        }
+
+        public override void OnNavigatedFrom(INavigationParameters parameters)
+        {
+            parameters.Add("user", User);
+        }
 
         public string Search
         {
@@ -68,7 +77,11 @@ namespace MobileAppCountries.Prism.ViewModels
             set => SetProperty(ref _countries, value);
         }
 
-
+        public ObservableCollection<CountryItemViewModel> Comments
+        {
+            get => _comments;
+            set => SetProperty(ref _comments, value);
+        }
 
         private async void LoadCountriesAsync()
         {
@@ -109,7 +122,7 @@ namespace MobileAppCountries.Prism.ViewModels
 
 
                 Countries = new ObservableCollection<CountryItemViewModel>(_myCoutries.Select(p =>
-                new CountryItemViewModel(_navigationService, _myCoutries)
+                new CountryItemViewModel(_navigationService, _myCoutries, User)
                 {
                     Name = p.Name,
                     Capital = p.Capital,
@@ -122,7 +135,7 @@ namespace MobileAppCountries.Prism.ViewModels
             else
             {
                 Countries = new ObservableCollection<CountryItemViewModel>(_myCoutries.Select(p =>
-                new CountryItemViewModel(_navigationService, _myCoutries)
+                new CountryItemViewModel(_navigationService, _myCoutries, User)
                 {
                     Name = p.Name,
                     Capital = p.Capital,

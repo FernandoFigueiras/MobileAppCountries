@@ -5,27 +5,28 @@ using Prism.Navigation;
 
 namespace MobileAppCountries.Prism.ViewModels
 {
-    public class MainPageViewModel : ViewModelBase
+    public class MainPageViewModel : ViewModelBase, INavigationAware
     {
         private readonly INavigationService _navigationService;
         private DelegateCommand _openListCountries;
         private DelegateCommand _openDetailCountries;
         private DelegateCommand _goToLogin;
 
+
         public User User { get; set; }
 
-        public MainPageViewModel(INavigationService navigationService,
-            User user)
+        public MainPageViewModel(INavigationService navigationService)
             : base(navigationService)
         {
             Title = "Main Page";
             this._navigationService = navigationService;
-            User = user;
         }
 
 
-
-
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            User = (User)parameters["user"];
+        }
 
         public DelegateCommand OpenListCountries => _openListCountries ??
             (_openListCountries = new DelegateCommand(ShowListCountries));
@@ -67,6 +68,7 @@ namespace MobileAppCountries.Prism.ViewModels
                 var navParams = new NavigationParameters();
 
                 navParams.Add("user", User);
+
 
                 await _navigationService.NavigateAsync(nameof(CountriesPage), navParams);
             }

@@ -3,19 +3,16 @@ using MobileAppCountries.Common.Responses;
 using MobileAppCountries.Common.Services;
 using MobileAppCountries.Prism.ItemViewModel;
 using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Navigation;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 
 namespace MobileAppCountries.Prism.ViewModels
 {
-    public class DetailCountriesPageViewModel : ViewModelBase
+    public class DetailCountriesPageViewModel : ViewModelBase, INavigationAware
     {
         private readonly INavigationService _navigationService;
         private readonly IApiService _apiService;
@@ -31,8 +28,7 @@ namespace MobileAppCountries.Prism.ViewModels
         private ObservableCollection<CountryItemViewModel> _countries;
 
         public DetailCountriesPageViewModel(INavigationService navigationService,
-            IApiService apiService,
-            User user) : base(navigationService)
+            IApiService apiService, User user) : base(navigationService)
         {
             _navigationService = navigationService;
             _apiService = apiService;
@@ -44,6 +40,15 @@ namespace MobileAppCountries.Prism.ViewModels
 
         public DelegateCommand SearchCommand => _searchCommand ?? (_searchCommand = new DelegateCommand(ShowCountries));
 
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            User = (User)parameters["user"];
+        }
+
+        public override void OnNavigatedFrom(INavigationParameters parameters)
+        {
+            parameters.Add("user", User);
+        }
 
         public string Search
         {
@@ -54,8 +59,6 @@ namespace MobileAppCountries.Prism.ViewModels
                 ShowCountries();
             }
         }
-
-
 
         public bool IsRunning
         {
@@ -72,7 +75,7 @@ namespace MobileAppCountries.Prism.ViewModels
         }
 
 
-        
+
 
 
         private async void LoadCountriesAsync()
@@ -110,7 +113,7 @@ namespace MobileAppCountries.Prism.ViewModels
         private async Task<List<CommentEntries>> LoadCommentsAsync()
         {
             string url = App.Current.Resources["UrlBlogApi"].ToString();
-            Response response = await _apiService.GetListAsync<Country>(
+            Response response = await _apiService.GetCommentsAsync<CommentEntries>(
                 url,
                 "/Blogs",
                 "/GetAllBlogEntries");
@@ -118,6 +121,21 @@ namespace MobileAppCountries.Prism.ViewModels
             if (response.IsSuccess)
             {
                 _commentEntries = (List<CommentEntries>)response.Result;
+
+                foreach (var country in _myCoutries)
+                {
+                    var list = new List<CommentEntries>();
+                    foreach (var commentEntry in _commentEntries)
+                    {
+                        if (commentEntry.Country == country.Name)
+                        {
+                            list.Add(commentEntry);
+                        }
+                    }
+                    country.Comments = list;
+                }
+
+
             }
 
             return _commentEntries;
@@ -131,24 +149,24 @@ namespace MobileAppCountries.Prism.ViewModels
 
 
                 Countries = new ObservableCollection<CountryItemViewModel>(_myCoutries.Select(p =>
-                new CountryItemViewModel(_navigationService, _myCoutries)
+                new CountryItemViewModel(_navigationService, _myCoutries, User)
                 {
                     Name = p.Name,
                     Capital = p.Capital,
                     Flag = p.Flag,
+                    Comments = new ObservableCollection<CommentEntries>(p.Comments).ToList()
                 })
                     .ToList());
-
-
             }
             else
             {
                 Countries = new ObservableCollection<CountryItemViewModel>(_myCoutries.Select(p =>
-                new CountryItemViewModel(_navigationService, _myCoutries)
+                new CountryItemViewModel(_navigationService, _myCoutries, User)
                 {
                     Name = p.Name,
                     Capital = p.Capital,
                     Flag = p.Flag,
+                    Comments = new ObservableCollection<CommentEntries>(p.Comments).ToList()
                 })
                     .Where(p => p.Name.ToLower().Contains(Search.ToLower()))
                     .ToList());
